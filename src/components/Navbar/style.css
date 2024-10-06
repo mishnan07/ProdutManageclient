@@ -1,0 +1,44 @@
+.inpt-btn-container {
+    position: relative; /* Parent needs to be relative to position the button absolutely */
+    width: 438px; /* Set the width of the container to match the input */
+}
+
+.inpt {
+    width: 100%; /* Ensure input takes up the full width of the container */
+    height: 56px;
+    padding: 25px 0px 25px 25px;
+    border-radius: 20px;
+    opacity: 1;
+    background: #FFFFFF;
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 21px;
+    text-align: left;
+}
+
+ .btn {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 56px;
+    width: 132px;
+    border-radius: 20px 20px 20px 20px; /* Adjust border-radius for the right side */
+    background: #EDA415;
+    color: white;
+    font-size: 14px;
+    border: none;
+    cursor: pointer;
+}
+
+
+.roundes{
+width: Fixed (14.21px)px;
+height: Fixed (15px)px;
+gap: 7.89px;
+border-radius: 394.74px 394.74px 394.74px 394.74px;
+opacity: 0px;
+background: #EDA415;
+color: #FFFFFF;
+}
