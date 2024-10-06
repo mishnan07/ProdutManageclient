@@ -23,6 +23,7 @@ const Slider = ({ search, submit ,setSubmit }) => {
   const [page, setPage] = useState(1)
   const limit = 3
   const [token,setToken] = useState('')
+  const [submitCategory,setSubmitCategory] = useState(false)
 
 
   useEffect(()=>{
@@ -32,7 +33,7 @@ const Slider = ({ search, submit ,setSubmit }) => {
 
   useEffect(() => {
     fetchAllCategory()
-  }, [])
+  }, [submitCategory])
 
   useEffect(() => {
     fetchProduct()
@@ -271,14 +272,14 @@ const handlePrevPage = () => {
       </div>
 
       {openCategoryModal && (
-        <CategoryModal setOpenCategoryModal={setOpenCategoryModal} />
+        <CategoryModal setOpenCategoryModal={setOpenCategoryModal} setSubmitCategory={setSubmitCategory} />
       )}
 
       {openSubCategoryModal && (
-        <SubCategoryModal setOpenCategoryModal={setOpenSubCategoryModal} />
+        <SubCategoryModal setOpenCategoryModal={setOpenSubCategoryModal} setSubmitCategory={setSubmitCategory} />
       )}
       {openProductModal && (
-        <ProductModal setOpen={setOpenProductModal} setState={setState} />
+        <ProductModal setOpen={setOpenProductModal} setState={setState}  />
       )}
     </div>
 

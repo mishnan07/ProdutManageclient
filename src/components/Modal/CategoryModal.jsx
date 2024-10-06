@@ -2,7 +2,7 @@ import { AddCategory } from '@/services/services';
 import React, { useState } from 'react';
 import toastr from 'toastr';
 
-const CategoryModal = ({ setOpenCategoryModal }) => {
+const CategoryModal = ({ setOpenCategoryModal , setSubmitCategory }) => {
   const [name,setName] = useState('')
   const [err,setErr] = useState(false)
 
@@ -16,6 +16,7 @@ const CategoryModal = ({ setOpenCategoryModal }) => {
       await AddCategory({name});
       resetAll()
       setOpenCategoryModal(false)
+      setSubmitCategory((prev)=>!prev)
     } catch (error) {
       toastr.error('Category Add failed. Please try again');
     }

@@ -2,7 +2,7 @@ import { AddSubCategory, CategoryOPtions } from '@/services/services';
 import React, { useEffect, useState } from 'react';
 import toastr from 'toastr';
 
-const SubCategoryModal = ({ setOpenCategoryModal }) => {
+const SubCategoryModal = ({ setOpenCategoryModal ,setSubmitCategory }) => {
   const [categories, setCategories] = useState([]);
   const initial = {
     categoryId: "",
@@ -40,6 +40,7 @@ const SubCategoryModal = ({ setOpenCategoryModal }) => {
       await AddSubCategory(formData);
       resetAll();
       setOpenCategoryModal(false)
+      setSubmitCategory((prev)=>!prev)
     } catch (error) {
       toastr.error('Category Add failed. Please try again');
     }
