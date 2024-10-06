@@ -1,5 +1,5 @@
 "use client"
-import { ListUserWishList, UpdateWishList } from '@/app/services/services';
+import { ListUserWishList, UpdateWishList } from '@/services/services';
 import React, { useEffect, useState } from 'react';
 import { API_URL } from '../../../config';
 

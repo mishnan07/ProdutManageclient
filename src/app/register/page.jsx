@@ -1,7 +1,7 @@
 "use client"
 import React, { useState } from "react";
 import './style.css';
-import { SubmitUserRegister } from "../services/services";
+import { SubmitUserRegister } from "../../services/services";
 import toastr from "toastr";
 import Link from "next/link";
 

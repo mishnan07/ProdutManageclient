@@ -1,4 +1,4 @@
-import { AddSubCategory, CategoryOPtions } from '@/app/services/services';
+import { AddSubCategory, CategoryOPtions } from '@/services/services';
 import React, { useEffect, useState } from 'react';
 import toastr from 'toastr';
 

@@ -1,5 +1,5 @@
-import { AddProduct, EditProduct, SubCategoryOPtions } from '@/app/services/services';
-import { post } from '@/app/utils/apiHelpers';
+import { AddProduct, EditProduct, SubCategoryOPtions } from '@/services/services';
+import { post } from '@/utils/apiHelpers';
 import React, { useEffect, useState } from 'react';
 import toastr from 'toastr';
 import { API_URL } from '../../../config';

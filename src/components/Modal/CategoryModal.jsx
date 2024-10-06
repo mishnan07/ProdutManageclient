@@ -1,4 +1,4 @@
-import { AddCategory } from '@/app/services/services';
+import { AddCategory } from '@/services/services';
 import React, { useState } from 'react';
 import toastr from 'toastr';
 

@@ -4,10 +4,10 @@ import './style.css'
 import CategoryModal from '../Modal/CategoryModal'
 import SubCategoryModal from '../Modal/SubCategoryModal'
 import ProductModal from '../Modal/ProductModal'
-import { ListAllCategory, ProductList, UpdateWishList } from '@/app/services/services'
+import { ListAllCategory, ProductList, UpdateWishList } from '@/services/services'
 import { API_URL } from '../../../config'
 import { useRouter } from 'next/navigation'
-import { getToken } from '@/app/utils/commonFunctions'
+import { getToken } from '@/utils/commonFunctions'
 
 const Slider = ({ search, submit ,setSubmit }) => {
   const [openCategoryModal, setOpenCategoryModal] = useState(false)

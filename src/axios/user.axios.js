@@ -1,6 +1,6 @@
 import axios from "axios";
 import { API_URL } from "../../config";
-import { isValidJson } from "@/app/utils/commonFunctions";
+import { isValidJson } from "@/utils/commonFunctions";
 
 const CreateUserInstance = () => {
   let token = null;

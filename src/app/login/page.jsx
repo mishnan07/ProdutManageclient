@@ -1,11 +1,11 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import './style.css';
-import { SubmitUserLogin } from "../services/services";
+import { SubmitUserLogin } from "../../services/services";
 import toastr from "toastr";
 import Link from "next/link";
 import { useRouter } from 'next/navigation'
-import { get } from "../utils/apiHelpers";
+import { get } from "../../utils/apiHelpers";
 
 const LoginForm = () => {
   const initial = {

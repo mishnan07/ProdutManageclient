@@ -3,8 +3,8 @@ import React, { useEffect, useState } from 'react';
 import './style.css'
 import Link from 'next/link';
 import WishList from '../Modal/WishList';
-import { getToken } from '@/app/utils/commonFunctions';
-import { ListUserWishListCount } from '@/app/services/services';
+import { getToken } from '@/utils/commonFunctions';
+import { ListUserWishListCount } from '@/services/services';
 import { useRouter } from 'next/navigation';
 
 const Navbar = ({search , setSearch ,submit ,setSubmit}) => {

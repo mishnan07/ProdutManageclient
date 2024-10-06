@@ -1,5 +1,5 @@
 "use client";
-import { ProductListSingle } from '@/app/services/services';
+import { ProductListSingle } from '@/services/services';
 import React, { useEffect, useState } from 'react';
 import { API_URL } from '../../../config';
 import ProductModal from '../Modal/ProductModal';
