@@ -31,19 +31,7 @@ const LoginForm = () => {
       router.push('/'); 
     }
   }, [router]);
-  
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await get('/user');
-        // handle response
-      } catch (error) {
-        console.error("Error fetching user data", error);
-      }
-    };
-    fetchData();
-  }, []);
   
   //Handle Input change
   const handleChange = (e) => {
