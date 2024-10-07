@@ -86,7 +86,10 @@ const LoginForm = () => {
     try {
       await SubmitUserLogin(formData);
       setFormData(initial);
-      router.push('/'); 
+      // router.push('/'); 
+      setTimeout(() => {
+        router.push('/');
+      }, 100); 
     } catch (error) {
       toastr.error('Login failed. Please try again');
     }

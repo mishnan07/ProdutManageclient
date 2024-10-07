@@ -3,14 +3,6 @@ import { API_URL } from "../../config";
 import { isValidJson } from "@/utils/commonFunctions";
 
 const CreateUserInstance = () => {
-  let token = null;
-  if (typeof window !== 'undefined') {
-    const authUser = localStorage.getItem("authUser");
-    if (isValidJson(authUser)) {
-      const parsedUser = JSON.parse(authUser);
-      token = parsedUser?.token;
-    }
-  }
      
   const userInstance = axios.create({
     baseURL: API_URL
@@ -18,6 +10,13 @@ const CreateUserInstance = () => {
 
   userInstance.interceptors.request.use(
     (config) => {
+      let token = null;
+      const authUser = localStorage.getItem("authUser");
+      if (isValidJson(authUser)) {
+        const parsedUser = JSON.parse(authUser);
+        token = parsedUser?.token;
+      }
+  
       if (token) {
         config.headers["Authorization"] = `Bearer ${token}`;
       }
@@ -27,6 +26,7 @@ const CreateUserInstance = () => {
       return Promise.reject(error);
     }
   );
+  
 
   return userInstance;
 };
