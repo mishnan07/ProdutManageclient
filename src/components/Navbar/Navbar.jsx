@@ -18,14 +18,16 @@ const Navbar = ({search , setSearch ,submit ,setSubmit}) => {
     setToken(token)
   },[token])
 
-  useEffect(()=>{
-    fetchCount()
-  },[submit])
+  useEffect(() => {
+    if (token) {
+      fetchCount();
+    }
+  }, [token, submit]); 
 
   // Handle fetch count
-  const fetchCount = async()=>{
+  const fetchCount = async()=>{    
     try {
-      if(token){
+      if(token){        
         const count = await ListUserWishListCount()
         setWishListCount(count)
       }
