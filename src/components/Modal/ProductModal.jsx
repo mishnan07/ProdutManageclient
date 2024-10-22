@@ -37,7 +37,7 @@ const ProductModal = ({ setOpen,setState, products }) => {
                 const categoryOptions = await SubCategoryOPtions();
                 setCategories(categoryOptions);
             } catch (error) {
-                console.error('Error fetching category options:', error);
+                console.error('Error fetching category options:=========', error);
             }
         };
         getCategoryOptions();
