@@ -18,7 +18,7 @@ const CategoryModal = ({ setOpenCategoryModal , setSubmitCategory }) => {
       setOpenCategoryModal(false)
       setSubmitCategory((prev)=>!prev)
     } catch (error) {
-      toastr.error('Category Add failed. Please try again');
+      toastr.error('Category Add Failed, Please Try Again...');
     }
   };
 
