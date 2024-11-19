@@ -6,8 +6,14 @@ import toastr from "toastr";
 import Link from "next/link";
 import { useRouter } from 'next/navigation'
 import { get } from "../../utils/apiHelpers";
+import { io } from "socket.io-client";
 
 const LoginForm = () => {
+
+
+  const socket = io("http://localhost:6004/"); // Replace with your server URL
+
+
   const initial = {
     email: '',
     password: ''
@@ -83,13 +89,43 @@ const LoginForm = () => {
     }
   };
 
+
+
+  const handleStartGame = () => {
+
+        // Get the query string from the URL
+        const queryParams = new URLSearchParams(window.location.search);
+    
+        // Extract the 'id' parameter from the query string
+        const userId = queryParams.get('id')
+  console.log('oooooooooooooooooooooooooooooooo');
+  
+    if (userId) {
+      console.log('oooooooooooooooooooooooooooooooo');
+
+      socket.emit('startGame', userId);
+  
+      // Listen for game start event
+      socket.on(`gameStarted${userId}`, (data) => {
+        toastr.success(`Game started with opponent: ${data.opponentId}`);
+        // Redirect to game page or show game UI
+        // router.push(`/game?opponentId=${data.opponentId}`);
+      });
+    } else {
+      console.log('oooooooooooooooooooooooooooooooo');
+
+      toastr.error('User is not authenticated');
+    }
+  };
+
+
   return (
     <div className="h-[100vh] items-center flex justify-center px-5 lg:px-0">
       <div className=" bg-white border shadow sm:rounded-lg flex justify-center flex-1 h-screen">
         <div className="lg:w-1/2 xl:w-7/12 p-6 sm:p-12 flex justify-center items-center h-[650px]">
           <div className="flex flex-col justify-center items-center">
             <div className="text-center mt-8" style={{ height: "120px" }}>
-              <h1 className="orange-head">Sign In to Your Account</h1>
+              <h1 className="orange-head">start game to Your Account</h1>
             </div>
             <div className="w-full flex-1 mt-8">
               <div className="mx-auto max-w-xs flex flex-col gap-4">
@@ -117,21 +153,28 @@ const LoginForm = () => {
                     {errData.password && <p className="text-red-500 text-sm">{errData.password}</p>}
                   </div>
                   <button className="orange-btn" type="submit">
-                    SIGN IN
+                    start game
                   </button>
                 </form>
+                
               </div>
             </div>
           </div>
+          <button className="orange-btn" onClick={handleStartGame}>
+  Start Gameeeee
+</button>
+
+
+
+
         </div>
+
+
         <div className="flex-1 bg-blue-900 text-center hidden md:flex bgimg">
           <div className="m-12 xl:m-16 w-full bg-contain bg-center bg-no-repeat">
             <div className="flex flex-col justify-center items-center h-[650px]">
               <h2 className="white-head">Hello Friend!</h2>
               <p className="para mt-4 max-w-[250px]">Enter your personal details and start your journey with us</p>
-              <Link href="/register">
-                <button className="sgn-btn">SIGN UP</button>
-              </Link>
             </div>
           </div>
         </div>
