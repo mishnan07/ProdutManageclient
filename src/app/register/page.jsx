@@ -1,9 +1,10 @@
 "use client"
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import './style.css';
 import { SubmitUserRegister } from "../../services/services";
 import toastr from "toastr";
 import Link from "next/link";
+import { io } from "socket.io-client";
 
 const RegistrationForm = () => {
   const initial = {
@@ -13,7 +14,46 @@ const RegistrationForm = () => {
   };
   const [formData, setFormData] = useState(initial);
   const [errData, setErrData] = useState(initial);
+  const socket = io("http://localhost:6004/"); // Replace with your server URL
+  const [newRequest,setNewRequest] = useState([])
+
+
+  const queryParams = new URLSearchParams(window.location.search);
+  const userId = queryParams.get('id')
+
+  /////////////////////////////////////////////////////
+    
+  socket.on('gameStartedRequest',(requstedUserId,data)=>{
+   console.log(requstedUserId,'========================= 00',data);
+   setNewRequest((prevRequests) => [...prevRequests, requstedUserId]);
+})
+
   
+socket.on(`gameStarted${userId}`, (data) => {
+  console.log(`Game started with opponent: ${data.opponentId}`);
+  console.log(data,'data ============');
+  
+});
+
+console.log(newRequest,'newRequest array');
+
+
+const handleAccept = () =>{
+   const opponentId = newRequest[newRequest?.length - 1]
+  socket.emit('gameAccept',userId,opponentId)
+
+}
+/////////////////////////////////////////////////////
+const link = queryParams.get('link')
+
+socket.on(link, (data) => {
+  console.log(`Game start requested from opponent: ${data}`);
+});
+
+
+console.log(link,'link==========');
+
+
 
   // Handle input change
   const handleChange = (e) => {
@@ -89,7 +129,7 @@ const RegistrationForm = () => {
             </div>
             <div className="w-full flex-1 mt-8">
               <div className="mx-auto max-w-xs flex flex-col gap-4">
-                <form onSubmit={handleSubmit}>
+                {/* <form onSubmit={handleSubmit}>
                   <div className="mb-3">
                     <input
                       className={`w-full px-5 py-3 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white ${errData.name ? 'border-red-500' : ''}`}
@@ -129,8 +169,14 @@ const RegistrationForm = () => {
                   <button className="orange-btn" type="submit">
                     Sign UP
                   </button>
-                </form>
+                </form> */}
               </div>
+
+              
+              <button onClick={handleAccept} className="orange-btn" type="">
+                    accept
+                  </button>
+
             </div>
           </div>
         </div>

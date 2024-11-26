@@ -9,11 +9,43 @@ import { get } from "../../utils/apiHelpers";
 import { io } from "socket.io-client";
 
 const LoginForm = () => {
-
-
+  const queryParams = new URLSearchParams(window.location.search);
+  const userId = queryParams.get('id')
+  
   const socket = io("http://localhost:6004/"); // Replace with your server URL
 
+///////////////////////////////////////////////
+ 
+  
+  const handleStartGame = () => {
+    socket.emit('startGame', userId);
+};
 
+socket.on(`gameStarted${userId}`, (data) => {
+    if (data.opponentId === "computer") {
+        console.log("Connected to computer as no player accepted the request.",data);
+        // Handle the game with AI logic here
+    } else {
+        console.log(`Game started with opponent: ${data.opponentId}`);
+        // Handle the game with a real opponent
+    }
+});
+
+///////////////////////////////////////////
+// const link = "qrudiyz25beeb44-1002"
+const link = queryParams.get('link')
+console.log(link,'link==========');
+
+
+  const handleRequestWithLink = ()=>{
+    console.log('emiteedd');
+    
+    socket.emit('requestLink',link, userId);
+  }
+
+
+
+  
   const initial = {
     email: '',
     password: ''
@@ -89,34 +121,32 @@ const LoginForm = () => {
     }
   };
 
+  // const handleStartGame = () => {
 
-
-  const handleStartGame = () => {
-
-        // Get the query string from the URL
-        const queryParams = new URLSearchParams(window.location.search);
+  //       // Get the query string from the URL
+  //       const queryParams = new URLSearchParams(window.location.search);
     
-        // Extract the 'id' parameter from the query string
-        const userId = queryParams.get('id')
-  console.log('oooooooooooooooooooooooooooooooo');
+  //       // Extract the 'id' parameter from the query string
+  //       const userId = queryParams.get('id')
+  // console.log('oooooooooooooooooooooooooooooooo');
   
-    if (userId) {
-      console.log('oooooooooooooooooooooooooooooooo');
+  //   if (userId) {
+  //     console.log('oooooooooooooooooooooooooooooooo');
 
-      socket.emit('startGame', userId);
+  //     socket.emit('startGame', userId);
   
-      // Listen for game start event
-      socket.on(`gameStarted${userId}`, (data) => {
-        toastr.success(`Game started with opponent: ${data.opponentId}`);
-        // Redirect to game page or show game UI
-        // router.push(`/game?opponentId=${data.opponentId}`);
-      });
-    } else {
-      console.log('oooooooooooooooooooooooooooooooo');
+  //     // Listen for game start event
+  //     socket.on(`gameStarted${userId}`, (data) => {
+  //       toastr.success(`Game started with opponent: ${data.opponentId}`);
+  //       // Redirect to game page or show game UI
+  //       // router.push(`/game?opponentId=${data.opponentId}`);
+  //     });
+  //   } else {
+  //     console.log('oooooooooooooooooooooooooooooooo');
 
-      toastr.error('User is not authenticated');
-    }
-  };
+  //     toastr.error('User is not authenticated');
+  //   }
+  // };
 
 
   return (
@@ -162,6 +192,10 @@ const LoginForm = () => {
           </div>
           <button className="orange-btn" onClick={handleStartGame}>
   Start Gameeeee
+</button>
+
+<button className="orange-btn" onClick={handleRequestWithLink}>
+  Start in link
 </button>
 
 
