@@ -2,18 +2,16 @@ import localFont from "next/font/local";
 import "./globals.css";
 import "./commenStyle.css"
 import 'toastr/build/toastr.min.css';
+import { Inter } from 'next/font/google';
+import { Pacifico } from 'next/font/google';
+
+const pacifico = Pacifico({
+  weight: '400',
+  subsets: ['latin'],
+  variable: '--font-pacifico',
+});
 
 
-const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
-  variable: "--font-geist-sans",
-  weight: "100 900",
-});
-const geistMono = localFont({
-  src: "./fonts/GeistMonoVF.woff",
-  variable: "--font-geist-mono",
-  weight: "100 900",
-});
 
 export const metadata = {
   title: "Create Next App",
@@ -23,9 +21,8 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+    <body className={`${pacifico.variable} antialiased`} style={{ fontFamily: 'var(--font-pacifico)' }}>
+
         {children}
       </body>
     </html>

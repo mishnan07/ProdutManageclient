@@ -8,15 +8,16 @@ const Payment = () => {
   const handlePayment = async () => {
     if (typeof window !== "undefined" && window.Razorpay) {
 
-     const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2N2UyODNkNjdlNjgwODdiMzcyNWIzNmMiLCJuYW1lIjoiTWlzaG5hbiIsImlhdCI6MTc0NTU1OTk1MywiZXhwIjoxNzQ1NjQ2MzUzfQ.nLcZhTs9a5grUPUXjfSPmkJM_Dz6ZyTEZZ83a2L_5oM'
-         
+      const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2N2UyODNkNjdlNjgwODdiMzcyNWIzNmMiLCJuYW1lIjoiTWlzaG5hbiIsImlhdCI6MTc0NTU1OTk1MywiZXhwIjoxNzQ1NjQ2MzUzfQ.nLcZhTs9a5grUPUXjfSPmkJM_Dz6ZyTEZZ83a2L_5oM'
+
       // Step 1: Create order
       const orderRes = await fetch("http://localhost:3010/v1/ecard/razorpay/create", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`, 
+          Authorization: `Bearer ${token}`,
         },
+        body: JSON.stringify({ "currency": "INR", "amount": "100", "dCardId": "6803799c2c88402e0c8f8618" })
       });
 
       const { razorpay_order_id, currency } = await orderRes.json();

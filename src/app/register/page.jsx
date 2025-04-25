@@ -1,188 +1,178 @@
 "use client"
-import React, { useEffect, useState } from "react";
-import './style.css';
-import { SubmitUserRegister } from "../../services/services";
-import toastr from "toastr";
-import Link from "next/link";
-import { io } from "socket.io-client";
+// import { useState } from "react";
+// import axios from "axios";
 
-const RegistrationForm = () => {
-  const initial = {
-    name: '',
-    email: '',
-    password: ''
-  };
-  const [formData, setFormData] = useState(initial);
-  const [errData, setErrData] = useState(initial);
-  const socket = io("http://localhost:6004/"); // Replace with your server URL
-  const [newRequest,setNewRequest] = useState([])
-
-
-  const queryParams = new URLSearchParams(window.location.search);
-  const userId = queryParams.get('id')
-
-  /////////////////////////////////////////////////////
-    
-  socket.on('gameStartedRequest',(requstedUserId,data)=>{
-   console.log(requstedUserId,'========================= 00',data);
-   setNewRequest((prevRequests) => [...prevRequests, requstedUserId]);
-})
-
+// const LocationComponent = () => {
+//   const [location, setLocation] = useState(null);
+//   const [city, setCity] = useState("");
+//   const getLocation = () => {
+//     if ("geolocation" in navigator) {
+//       navigator.permissions.query({ name: "geolocation" }).then((result) => {
+//         if (result.state === "denied") {
+//           alert("You have blocked location access. Please enable it in your browser settings.");
+//           return;
+//         }
   
-socket.on(`gameStarted${userId}`, (data) => {
-  console.log(`Game started with opponent: ${data.opponentId}`);
-  console.log(data,'data ============');
+//         navigator.geolocation.getCurrentPosition(
+//           async (position) => {
+//             const { latitude, longitude } = position.coords;
+//             setLocation({ latitude, longitude });
   
-});
+//             try {
+//               const response = await axios.get(
+//                 `http://localhost:5000/api/location?latitude=${latitude}&longitude=${longitude}`
+//               );
+//               setCity(response.data.city);
+//             } catch (error) {
+//               console.error("Error fetching city:", error);
+//             }
+//           },
+//           (error) => {
+//             if (error.code === error.PERMISSION_DENIED) {
+//               alert("Location access is denied. Enable it in your browser settings.");
+//             }
+//           }
+//         );
+//       });
+//     } else {
+//       console.error("Geolocation is not supported by this browser.");
+//     }
+//   };
+  
+//   return (
+//     <div>
+//       <button onClick={getLocation}>Get Location</button>
+//       {location && (
+//         <p>
+//           Latitude: {location.latitude}, Longitude: {location.longitude}
+//         </p>
+//       )}
+//       {city && <p>City: {city}</p>}
+//     </div>
+//   );
+// };
 
-console.log(newRequest,'newRequest array');
-
-
-const handleAccept = () =>{
-   const opponentId = newRequest[newRequest?.length - 1]
-  socket.emit('gameAccept',userId,opponentId)
-
-}
-/////////////////////////////////////////////////////
-const link = queryParams.get('link')
-
-socket.on(link, (data) => {
-  console.log(`Game start requested from opponent: ${data}`);
-});
-
-
-console.log(link,'link==========');
+// export default LocationComponent;
 
 
 
-  // Handle input change
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value
-    });
-    setErrData({
-      ...errData,
-      [name]: ''
-    }); 
-  };
+///////////////////////////////////////////////////
 
-  // Validate form fields
-  const validate = () => {
-    let errors = {};
-    if (!formData.name) {
-      errors.name = 'Name is required';
-    }
-    if (!formData.email) {
-      errors.email = 'Email is required';
-    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      errors.email = 'Email address is invalid';
-    }
-    if (!formData.password) {
-      errors.password = 'Password is required';
-    } else if (formData.password.length < 6) {
-      errors.password = 'Password must be at least 6 characters';
-    }
-    return errors;
-  };
 
-  // Handle Submit the form
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const errors = validate();
-    if (Object.keys(errors).length > 0) {
-      setErrData(errors);
-      return;
-    }
-    try {
-      await SubmitUserRegister(formData);
-      setFormData(initial);
-    } catch (error) {
-      toastr.error('Registration failed');
+
+// import { useState } from "react";
+// import axios from "axios";
+// const LocationComponent = () => {
+//   const [location, setLocation] = useState(null);
+//   const [city, setCity] = useState("");
+//   const getLocation = () => {
+//     if ("geolocation" in navigator) {
+//       navigator.geolocation.getCurrentPosition(
+//         async (position) => {
+//           const { latitude, longitude } = position.coords;
+//           setLocation({ latitude, longitude });
+//           // Reverse Geocoding API Call
+//           try {
+//             const response = await axios.get(
+//               `https://api.opencagedata.com/geocode/v1/json?q=${latitude}+${longitude}&key=45228461d9a245fea4ca7a1569e0b2a4`
+//             );
+//             console.log(response);
+//             console.log(response.data,'response.data');
+            
+//             const cityName = response.data.results[0]?.components?.city || "Unknown";
+//             setCity(cityName);
+//           } catch (error) {
+//             console.error("Error fetching city:", error);
+//           }
+//         },
+//         (error) => {
+//           console.error("Error getting location:", error);
+//         }
+//       );
+//     } else {
+//       console.error("Geolocation is not supported by this browser.");
+//     }
+//   };
+//   return (
+//     <div>
+//       <button onClick={getLocation}>Get Location</button>
+//       {location && (
+//         <p>
+//           Latitude: {location.latitude}, Longitude: {location.longitude}
+//         </p>
+//       )}
+//       {city && <p>City: {city}</p>}
+//     </div>
+//   );
+// };
+// export default LocationComponent;
+
+
+
+import { useState } from "react";
+import axios from "axios";
+
+const LocationComponent = () => {
+  const [locationData, setLocationData] = useState(null);
+
+  const getLocation = () => {
+    if ("geolocation" in navigator) {
+      navigator.geolocation.getCurrentPosition(
+        async (position) => {
+          const { latitude, longitude } = position.coords;
+
+          try {
+            const response = await axios.get(
+              `https://api.opencagedata.com/geocode/v1/json?q=${latitude}+${longitude}&key=45228461d9a245fea4ca7a1569e0b2a4`
+            );
+
+            console.log(response.data, "response.data");
+
+            if (response.data.results.length > 0) {
+              const components = response.data.results[0]?.components || {};
+
+              const locationDetails = {
+                city: components.city || components.town || components.village || "Unknown",
+                country: components.country || "Unknown",
+                countryCode: components["ISO_3166-1_alpha-2"] || "Unknown",
+                lat: latitude,
+                lon: longitude,
+                region: components.state || "Unknown",
+                regionName: components.state_district || "Unknown",
+                timezone: response.data.results[0]?.annotations?.timezone?.name || "Unknown",
+                zip: components.postcode || "Unknown",
+              };
+
+              setLocationData(locationDetails);
+            }
+          } catch (error) {
+            console.error("Error fetching location data:", error);
+          }
+        },
+        (error) => {
+          console.error("Error getting location:", error);
+        }
+      );
+    } else {
+      console.error("Geolocation is not supported by this browser.");
     }
   };
 
   return (
-    <div className="h-[100vh] items-center flex justify-center px-5 lg:px-0">
-      <div className=" bg-white border shadow sm:rounded-lg flex justify-center flex-1 h-screen">
-        <div className="flex-1 bg-blue-900 text-center hidden md:flex bgimg">
-          <div
-            className="m-12 xl:m-16 w-full bg-contain bg-center bg-no-repeat"
-          >
-            <div className="flex flex-col justify-center items-center h-[650px]">
-              <h2 className="white-head">Welcome Back!</h2>
-              <p className="para mt-4 max-w-[250px]">
-                To keep connected with us please login with your personal info
-              </p>
-              <Link href="/login">
-                    <button className="sgn-btn">SIGN IN</button>
-                    </Link>
-            </div>
-          </div>
+    <div>
+      <button onClick={getLocation}>Get Location</button>
+      {locationData && (
+        <div>
+          <p>City: {locationData.city}</p>
+          <p>Country: {locationData.country} ({locationData.countryCode})</p>
+          <p>Latitude: {locationData.lat}, Longitude: {locationData.lon}</p>
+          <p>Region: {locationData.region}, {locationData.regionName}</p>
+          <p>Timezone: {locationData.timezone}</p>
+          <p>ZIP Code: {locationData.zip}</p>
         </div>
-
-        <div className="lg:w-1/2 xl:w-7/12 p-6 sm:p-12 flex justify-center items-center h-screen ">
-          <div className="flex flex-col justify-center items-center">
-            <div className="text-center mt-8">
-              <h1 className="orange-head">Create Account</h1>
-            </div>
-            <div className="w-full flex-1 mt-8">
-              <div className="mx-auto max-w-xs flex flex-col gap-4">
-                {/* <form onSubmit={handleSubmit}>
-                  <div className="mb-3">
-                    <input
-                      className={`w-full px-5 py-3 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white ${errData.name ? 'border-red-500' : ''}`}
-                      type="text"
-                      name="name"
-                      value={formData.name || ""}
-                      onChange={handleChange}
-                      placeholder="Name"
-                    />
-                    {errData.name && <p className="text-red-500 text-sm">{errData.name}</p>}
-                  </div>
-
-                  <div className="mb-3">
-                    <input
-                    className={`w-full px-5 py-3 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white ${errData.email ? 'border-red-500' : ''}`}
-                    type="text"
-                    name="email"
-                    value={formData.email || ""}
-                    onChange={handleChange}
-                    placeholder="Email"
-                    />
-                    {errData.email && <p className="text-red-500 text-sm">{errData.email}</p>}
-                </div>
-
-                  <div className="mb-3">
-                    <input
-                      className={`w-full px-5 py-3 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white ${errData.password ? 'border-red-500' : ''}`}
-                      type="password"
-                      name="password"
-                      value={formData.password || ""}
-                      onChange={handleChange}
-                      placeholder="Password"
-                    />
-                    {errData.password && <p className="text-red-500 text-sm">{errData.password}</p>}
-                  </div>
-
-                  <button className="orange-btn" type="submit">
-                    Sign UP
-                  </button>
-                </form> */}
-              </div>
-
-              
-              <button onClick={handleAccept} className="orange-btn" type="">
-                    accept
-                  </button>
-
-            </div>
-          </div>
-        </div>
-      </div>
+      )}
     </div>
   );
 };
 
-export default RegistrationForm;
+export default LocationComponent;
