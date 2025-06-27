@@ -11,11 +11,9 @@ const Payment = () => {
         if (typeof window !== "undefined" && window.Razorpay) {
 
 
-            const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2N2UyODNkNjdlNjgwODdiMzcyNWIzNmMiLCJuYW1lIjoiTWlzaG5hbiIsImlhdCI6MTc0NTAzNTMzNCwiZXhwIjoxNzQ1MTIxNzM0fQ.z1v5NjpINHPSiRd7WuUQW5JKDlZlNfDj0YYfXPHsv4A'
-
-
+            const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzMxZjQzM2E1YjI0OTE4OGYwMWZiYWIiLCJpYXQiOjE3NTAxNTIwMTUsImV4cCI6MTgxOTI3MjAxNX0.VStG8GTi1TIvU3Rx_s2_c1bBdp6Eg37qdqJsJgwAWZw'
             // 1. Create Order from Backend
-            const response = await fetch("http://localhost:3010/v1/cPartner/wallet/create", {
+            const response = await fetch("https://rubidya.com/c1599h/api/inrwallet/add/create", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -43,7 +41,7 @@ const Payment = () => {
                     setPaymentId(razorpay_payment_id);
 
                     // Step 3: Verify payment (send signature in headers)
-                    const verifyRes = await fetch("http://localhost:3010/v1/cPartner/wallet/verify", {
+                    const verifyRes = await fetch("https://rubidya.com/c1599h/api/inrwallet/add/verify", {
                         method: "POST",
                         headers: {
                             "Content-Type": "application/json",
